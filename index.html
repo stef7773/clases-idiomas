@@ -233,28 +233,20 @@
   /* ---------- COMPLEMENT (Educare AI only) ---------- */
   .complement{
     position:relative;
+    background:var(--bg-1);
     border-radius:28px;
     padding:56px;
-    overflow:hidden;
     display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;
-    isolation:isolate;
-  }
-  .complement::before{
-    content:""; position:absolute; inset:0; z-index:-2;
-    background-image:url('assets/images/corporate-platform.jpg');
-    background-size:cover; background-position:center;
-  }
-  .complement::after{
-    content:""; position:absolute; inset:0; z-index:-1;
-    background:linear-gradient(110deg, rgba(8,11,26,0.96) 45%, rgba(8,11,26,0.72));
   }
   @media (max-width:860px){ .complement{grid-template-columns:1fr; padding:36px 28px;} }
   .complement h2{font-size:clamp(1.6rem,3vw,2.2rem); margin-bottom:16px;}
   .complement p{color:var(--ink-dim); margin-bottom:24px;}
+  .complement-photo{border-radius:20px; overflow:hidden; border:1px solid var(--card-border);}
+  .complement-photo img{width:100%; object-fit:cover; aspect-ratio:4/5;}
   .app-link{
     display:flex; align-items:center; justify-content:space-between; gap:16px;
-    background:rgba(19,25,56,0.85); border:1px solid var(--card-border); border-radius:14px;
-    padding:18px 22px; transition:border-color .2s; backdrop-filter:blur(6px);
+    background:var(--card); border:1px solid var(--card-border); border-radius:14px;
+    padding:18px 22px; transition:border-color .2s;
   }
   .app-link:hover{border-color:var(--cyan);}
   .app-link .app-name{font-weight:600; font-size:1.02rem;}
@@ -339,7 +331,7 @@
     <div class="hero-photo">
       <div class="hero-photo-float">🎧 Clase en vivo</div>
       <div class="hero-photo-card">
-        <img src="assets/images/stefano-teaching.jpg" alt="Stefano Del Moro dando una clase de idiomas online por videollamada">
+        <img src="assets/images/corporate-platform-hero.jpg" alt="Profesor de idiomas en una clase online, con visualización futurista de conexión global de fondo">
       </div>
     </div>
   </div>
@@ -475,6 +467,9 @@
           </div>
           <span class="arrow">↗</span>
         </a>
+      </div>
+      <div class="complement-photo">
+        <img src="assets/images/stefano-teaching.jpg" alt="Stefano Del Moro trabajando desde su escritorio con herramientas de idiomas">
       </div>
     </div>
   </div>
