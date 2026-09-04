@@ -158,6 +158,7 @@
   .method-layout{display:grid; grid-template-columns:0.9fr 1.1fr; gap:40px; align-items:center;}
   @media (max-width:900px){ .method-layout{grid-template-columns:1fr;} }
   .method-photo{border-radius:22px; overflow:hidden; border:1px solid var(--card-border);}
+  .method-photo-wrap{position:relative;}
   .method-photo img{width:100%; object-fit:cover; aspect-ratio:4/3;}
   .method-grid{display:grid; grid-template-columns:1fr; gap:18px;}
   .method-card{
@@ -175,20 +176,18 @@
   .method-card p{color:var(--ink-dim); font-size:0.94rem;}
 
   /* ---------- LIFESTYLE VIDEO GRID ---------- */
-  .video-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
-  @media (max-width:900px){ .video-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:520px){ .video-grid{grid-template-columns:1fr;} }
-  .video-card{
-    position:relative; border-radius:16px; overflow:hidden; aspect-ratio:3/4;
-    border:1px solid var(--card-border);
+  .video-pip{
+    position:absolute; width:120px; border-radius:14px; overflow:hidden;
+    border:2px solid var(--bg-0); box-shadow:0 16px 40px rgba(0,0,0,0.5);
+    z-index:5;
   }
-  .video-card video{width:100%; height:100%; object-fit:cover;}
-  .video-card .caption{
+  .video-pip video{width:100%; aspect-ratio:3/4; object-fit:cover; display:block;}
+  .video-pip .pip-caption{
     position:absolute; left:0; right:0; bottom:0;
-    padding:16px 14px 14px;
-    background:linear-gradient(to top, rgba(6,8,20,0.9), transparent);
-    font-size:0.84rem; font-weight:600;
+    padding:8px 8px 7px; font-size:0.68rem; font-weight:600; text-align:center;
+    background:linear-gradient(to top, rgba(6,8,20,0.92), transparent);
   }
+  @media (max-width:760px){ .video-pip{display:none;} }
 
   /* ---------- PRICING ---------- */
   .promo-banner{
@@ -323,8 +322,16 @@
       </div>
     </div>
     <div class="hero-photo">
+      <p style="font-size:0.82rem; color:var(--ink-dim); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);"></span>
+        🎧 Clase en vivo
+      </p>
       <div class="hero-photo-card">
         <img src="assets/images/corporate-platform-hero.jpg" alt="Profesor de idiomas en una clase online, con visualización futurista de conexión global de fondo">
+      </div>
+      <div class="video-pip" style="left:-24px; bottom:-24px;">
+        <video src="assets/videos/hero-typing.mp4" autoplay muted loop playsinline aria-label="Persona escribiendo en la laptop con una sonrisa"></video>
+        <div class="pip-caption">En una pausa</div>
       </div>
     </div>
   </div>
@@ -338,8 +345,14 @@
       <p>Nada de listas de verbos sueltas. Cada clase se arma alrededor de una conversación real, tus objetivos y tu ritmo.</p>
     </div>
     <div class="method-layout">
-      <div class="method-photo">
-        <img src="assets/images/group-table.jpg" alt="Grupo de estudiantes practicando español, inglés, italiano y francés alrededor de una mesa">
+      <div class="method-photo-wrap">
+        <div class="method-photo">
+          <img src="assets/images/group-table.jpg" alt="Grupo de estudiantes practicando español, inglés, italiano y francés alrededor de una mesa">
+        </div>
+        <div class="video-pip" style="right:-20px; top:-20px;">
+          <video src="assets/videos/library-student.mp4" autoplay muted loop playsinline aria-label="Estudiante enfocado estudiando en una biblioteca"></video>
+          <div class="pip-caption">En la biblioteca</div>
+        </div>
       </div>
       <div class="method-grid">
         <div class="method-card">
@@ -359,40 +372,18 @@
   </div>
 </section>
 
-<section id="vida">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="kicker">Flexibilidad real</div>
-      <h2>Aprendé donde estés, como estés</h2>
-      <p>Tomá tu clase desde el sofá, en un descanso del trabajo, entre clases en la biblioteca o antes de una reunión importante.</p>
-    </div>
-    <div class="video-grid">
-      <div class="video-card">
-        <video src="assets/videos/sofa-laptop.mp4" autoplay muted loop playsinline aria-label="Persona relajada en el sofá estudiando con laptop"></video>
-        <div class="caption">Desde el sofá</div>
-      </div>
-      <div class="video-card">
-        <video src="assets/videos/library-student.mp4" autoplay muted loop playsinline aria-label="Estudiante enfocado estudiando en una biblioteca"></video>
-        <div class="caption">En la biblioteca</div>
-      </div>
-      <div class="video-card">
-        <video src="assets/videos/hero-typing.mp4" autoplay muted loop playsinline aria-label="Persona escribiendo en la laptop con una sonrisa"></video>
-        <div class="caption">En una pausa</div>
-      </div>
-      <div class="video-card">
-        <video src="assets/videos/business-woman.mp4" autoplay muted loop playsinline aria-label="Profesional trabajando antes de una reunión"></video>
-        <div class="caption">Antes de una reunión</div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <section id="precios">
-  <div class="wrap">
+  <div class="wrap" style="position:relative;">
     <div class="section-head">
       <div class="kicker">Inversión</div>
       <h2>Precios claros, sin letra chica</h2>
       <p>Pagás por clase o en paquete. Cuanto más te comprometés, más baja el precio por hora.</p>
+    </div>
+    <div class="video-pip" style="right:8px; top:0;">
+      <video src="assets/videos/sofa-laptop.mp4" autoplay muted loop playsinline aria-label="Persona relajada en el sofá estudiando con laptop"></video>
+      <div class="pip-caption">Desde el sofá</div>
     </div>
 
     <div class="promo-banner">
@@ -481,7 +472,11 @@
 </section>
 
 <section id="contacto" class="contact">
-  <div class="wrap">
+  <div class="wrap" style="position:relative;">
+    <div class="video-pip" style="left:8px; top:-12px;">
+      <video src="assets/videos/business-woman.mp4" autoplay muted loop playsinline aria-label="Profesional trabajando antes de una reunión"></video>
+      <div class="pip-caption">Antes de una reunión</div>
+    </div>
     <h2>¿Empezamos con tu clase de prueba?</h2>
     <p>Escribime por WhatsApp o correo, contame qué idioma querés aprender y tu disponibilidad, y coordinamos tu primera clase sin costo.</p>
     <div class="contact-actions">
