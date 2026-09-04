@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stefano Del Moro — Clases de Idiomas Online</title>
+<meta name="description" content="Clases particulares online de inglés, francés, italiano y español con métodos innovadores. Reservá tu primera clase gratis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#080B1A;
+    --bg-1:#12173A;
+    --cyan:#5EEAD4;
+    --magenta:#F472B6;
+    --amber:#FBBF6E;
+    --ink:#EAEBF5;
+    --ink-dim:#9AA1C2;
+    --card:#131938;
+    --card-border:rgba(255,255,255,0.08);
+    --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-0);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    letter-spacing:-0.02em;
+  }
+  a{color:inherit;}
+  img,video{max-width:100%;display:block;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(8,11,26,0.72);
+    border-bottom:1px solid var(--card-border);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Sora',sans-serif; font-weight:700; font-size:1.05rem;}
+  .brand-mark{
+    width:34px; height:34px; border-radius:10px;
+    background:linear-gradient(135deg,var(--cyan),var(--magenta));
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
+  }
+  .nav-links{display:flex; gap:32px; font-size:0.92rem; color:var(--ink-dim);}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--cyan);}
+  .nav-cta{
+    background:var(--cyan); color:#04201C; padding:10px 20px; border-radius:100px;
+    font-weight:600; font-size:0.88rem; white-space:nowrap;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(94,234,212,0.35);}
+  @media (max-width:760px){ .nav-links{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding-top:72px;
+    overflow:hidden;
+  }
+  #network{position:absolute; inset:0; width:100%; height:100%; opacity:0.4;}
+  .hero-glow{
+    position:absolute; width:640px; height:640px; border-radius:50%;
+    background:radial-gradient(circle, rgba(94,234,212,0.18), transparent 70%);
+    top:-200px; right:-160px; pointer-events:none;
+  }
+  .hero .wrap{
+    position:relative; z-index:2; padding-top:50px; padding-bottom:60px;
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
+  }
+  @media (max-width:960px){ .hero .wrap{grid-template-columns:1fr;} }
+  .eyebrow-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--card); border:1px solid var(--card-border);
+    padding:7px 16px; border-radius:100px; font-size:0.84rem; color:var(--ink-dim);
+    margin-bottom:24px;
+  }
+  .eyebrow-pill .dot{width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 10px var(--cyan);}
+  .greeting-line{
+    font-family:'Sora',sans-serif; font-size:1.05rem; color:var(--cyan);
+    margin-bottom:18px; min-height:1.4em; display:flex; align-items:center;
+  }
+  .greeting-line .cursor{
+    display:inline-block; width:2px; height:1.1em; background:var(--cyan);
+    margin-left:3px; animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+  h1.hero-title{
+    font-size:clamp(2.2rem, 4.6vw, 3.7rem);
+    line-height:1.08;
+    margin-bottom:24px;
+  }
+  h1.hero-title .grad{
+    background:linear-gradient(100deg,var(--cyan),var(--magenta) 70%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-sub{
+    font-size:1.1rem; color:var(--ink-dim); max-width:520px; margin-bottom:36px;
+  }
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:48px;}
+  .btn-primary{
+    background:linear-gradient(100deg,var(--cyan),#7BE8D9);
+    color:#04201C; font-weight:700; padding:15px 30px; border-radius:100px;
+    font-size:0.98rem; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .2s, box-shadow .2s; border:none; cursor:pointer;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(94,234,212,0.3);}
+  .btn-ghost{
+    border:1px solid var(--card-border); color:var(--ink); padding:15px 28px; border-radius:100px;
+    font-weight:600; font-size:0.98rem; transition:border-color .2s, background .2s;
+  }
+  .btn-ghost:hover{border-color:var(--cyan); background:rgba(94,234,212,0.06);}
+  .lang-orbit{display:flex; gap:14px; flex-wrap:wrap;}
+  .lang-chip{
+    display:flex; align-items:center; gap:8px;
+    background:var(--card); border:1px solid var(--card-border);
+    padding:9px 16px 9px 10px; border-radius:100px; font-size:0.88rem; color:var(--ink-dim);
+  }
+  .lang-chip .flag{font-size:1.1rem;}
+
+  /* hero photo card */
+  .hero-photo{position:relative;}
+  .hero-photo-card{
+    position:relative; border-radius:24px; overflow:hidden;
+    border:1px solid var(--card-border);
+    box-shadow:0 30px 80px rgba(0,0,0,0.45);
+  }
+  .hero-photo-card img{width:100%; height:100%; object-fit:cover; aspect-ratio:4/5;}
+  .hero-photo-badge{
+    position:absolute; left:20px; bottom:20px;
+    background:rgba(8,11,26,0.75); backdrop-filter:blur(10px);
+    border:1px solid var(--card-border); border-radius:14px;
+    padding:12px 16px; display:flex; align-items:center; gap:10px;
+  }
+  .hero-photo-badge .live-dot{width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan);}
+  .hero-photo-badge div{font-size:0.82rem; color:var(--ink-dim); line-height:1.3;}
+  .hero-photo-badge strong{display:block; font-size:0.9rem; color:var(--ink); font-family:'Sora',sans-serif;}
+  .hero-photo-float{
+    position:absolute; top:-18px; right:-18px;
+    background:var(--card); border:1px solid var(--card-border); border-radius:14px;
+    padding:10px 14px; font-size:0.8rem; color:var(--ink-dim);
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:100px 0;}
+  .section-head{max-width:640px; margin-bottom:52px;}
+  .section-head .kicker{color:var(--cyan); font-size:0.92rem; font-weight:600; margin-bottom:14px;}
+  .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.6rem); margin-bottom:16px;}
+  .section-head p{color:var(--ink-dim); font-size:1.05rem;}
+
+  /* ---------- METHOD ---------- */
+  .method-layout{display:grid; grid-template-columns:0.9fr 1.1fr; gap:40px; align-items:center;}
+  @media (max-width:900px){ .method-layout{grid-template-columns:1fr;} }
+  .method-photo{border-radius:22px; overflow:hidden; border:1px solid var(--card-border);}
+  .method-photo img{width:100%; object-fit:cover; aspect-ratio:4/3;}
+  .method-grid{display:grid; grid-template-columns:1fr; gap:18px;}
+  .method-card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
+    padding:26px 28px; display:flex; gap:18px; align-items:flex-start;
+  }
+  .method-card .icon{
+    flex-shrink:0; width:44px; height:44px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; font-size:20px;
+    background:rgba(94,234,212,0.1); color:var(--cyan);
+  }
+  .method-card:nth-child(2) .icon{background:rgba(244,114,182,0.1); color:var(--magenta);}
+  .method-card:nth-child(3) .icon{background:rgba(251,191,110,0.12); color:var(--amber);}
+  .method-card h3{font-size:1.08rem; margin-bottom:6px;}
+  .method-card p{color:var(--ink-dim); font-size:0.94rem;}
+
+  /* ---------- LIFESTYLE VIDEO GRID ---------- */
+  .video-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  @media (max-width:900px){ .video-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .video-grid{grid-template-columns:1fr;} }
+  .video-card{
+    position:relative; border-radius:16px; overflow:hidden; aspect-ratio:3/4;
+    border:1px solid var(--card-border);
+  }
+  .video-card video{width:100%; height:100%; object-fit:cover;}
+  .video-card .caption{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:16px 14px 14px;
+    background:linear-gradient(to top, rgba(6,8,20,0.9), transparent);
+    font-size:0.84rem; font-weight:600;
+  }
+
+  /* ---------- PRICING ---------- */
+  .promo-banner{
+    background:linear-gradient(100deg, rgba(94,234,212,0.14), rgba(244,114,182,0.14));
+    border:1px solid rgba(94,234,212,0.35);
+    border-radius:var(--radius);
+    padding:22px 28px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    margin-bottom:44px;
+  }
+  .promo-banner .promo-text{font-weight:600; font-size:1.02rem;}
+  .promo-banner .promo-text span{color:var(--cyan);}
+  .pricing-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  @media (max-width:960px){ .pricing-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .pricing-grid{grid-template-columns:1fr;} }
+  .price-card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
+    padding:28px 24px; display:flex; flex-direction:column; gap:16px;
+    transition:border-color .2s, transform .2s;
+  }
+  .price-card:hover{border-color:rgba(94,234,212,0.4); transform:translateY(-4px);}
+  .price-card .flag{font-size:2rem;}
+  .price-card h3{font-size:1.1rem;}
+  .price-card .amount{font-family:'Sora',sans-serif; font-size:2rem; font-weight:800;}
+  .price-card .amount small{font-size:0.95rem; font-weight:500; color:var(--ink-dim);}
+  .price-card ul{list-style:none; color:var(--ink-dim); font-size:0.88rem; display:flex; flex-direction:column; gap:6px;}
+  .price-card li::before{content:"✓ "; color:var(--cyan);}
+  .price-card .price-cta{
+    margin-top:auto; text-align:center; padding:11px; border-radius:100px;
+    border:1px solid var(--card-border); font-size:0.88rem; font-weight:600;
+    transition:background .2s, border-color .2s;
+  }
+  .price-card .price-cta:hover{background:rgba(94,234,212,0.08); border-color:var(--cyan);}
+  .packages-note{color:var(--ink-dim); font-size:0.9rem; margin-top:24px;}
+
+  /* ---------- COMPLEMENT (Educare AI only) ---------- */
+  .complement{
+    position:relative;
+    border-radius:28px;
+    padding:56px;
+    overflow:hidden;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;
+    isolation:isolate;
+  }
+  .complement::before{
+    content:""; position:absolute; inset:0; z-index:-2;
+    background-image:url('assets/images/corporate-platform.jpg');
+    background-size:cover; background-position:center;
+  }
+  .complement::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(110deg, rgba(8,11,26,0.96) 45%, rgba(8,11,26,0.72));
+  }
+  @media (max-width:860px){ .complement{grid-template-columns:1fr; padding:36px 28px;} }
+  .complement h2{font-size:clamp(1.6rem,3vw,2.2rem); margin-bottom:16px;}
+  .complement p{color:var(--ink-dim); margin-bottom:24px;}
+  .app-link{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    background:rgba(19,25,56,0.85); border:1px solid var(--card-border); border-radius:14px;
+    padding:18px 22px; transition:border-color .2s; backdrop-filter:blur(6px);
+  }
+  .app-link:hover{border-color:var(--cyan);}
+  .app-link .app-name{font-weight:600; font-size:1.02rem;}
+  .app-link .app-desc{font-size:0.85rem; color:var(--ink-dim);}
+  .app-link .arrow{color:var(--cyan); font-size:1.3rem;}
+  .complement-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.82rem; color:var(--cyan); margin-bottom:18px;
+  }
+
+  /* ---------- FLEXIBLE BANNER ---------- */
+  .flex-banner{
+    position:relative; border-radius:28px; overflow:hidden;
+    min-height:340px; display:flex; align-items:center;
+    isolation:isolate;
+  }
+  .flex-banner img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2;}
+  .flex-banner::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(100deg, rgba(8,11,26,0.94) 40%, rgba(8,11,26,0.35));
+  }
+  .flex-banner-content{padding:48px; max-width:460px;}
+  .flex-banner-content h2{font-size:clamp(1.5rem,2.8vw,2.1rem); margin-bottom:14px;}
+  .flex-banner-content p{color:var(--ink-dim);}
+
+  /* ---------- CONTACT ---------- */
+  .contact{text-align:center;}
+  .contact h2{font-size:clamp(2rem,4vw,3rem); max-width:680px; margin:0 auto 20px;}
+  .contact p{color:var(--ink-dim); max-width:520px; margin:0 auto 40px; font-size:1.05rem;}
+  .contact-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .contact-secondary{margin-top:28px; color:var(--ink-dim); font-size:0.92rem;}
+  .contact-secondary a{color:var(--ink); text-decoration:underline; text-underline-offset:3px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--card-border); padding:40px 0; color:var(--ink-dim); font-size:0.86rem;}
+  footer .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+  footer a{transition:color .2s;}
+  footer a:hover{color:var(--cyan);}
+  .footer-links{display:flex; gap:24px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark">🌐</div>
+      Stefano Del Moro
+    </div>
+    <div class="nav-links">
+      <a href="#metodo">Método</a>
+      <a href="#precios">Precios</a>
+      <a href="#practica">Práctica extra</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <a class="nav-cta" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20reservar%20una%20clase" target="_blank" rel="noopener">Reservar clase</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <canvas id="network"></canvas>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow-pill"><span class="dot"></span> Clases 1:1 online · Cupos abiertos</div>
+      <div class="greeting-line" id="greeting"><span id="greeting-text"></span><span class="cursor"></span></div>
+      <h1 class="hero-title">Dejá de traducir en tu cabeza.<br>Empezá a <span class="grad">pensar</span> en el idioma.</h1>
+      <p class="hero-sub">Clases particulares online de inglés, francés, italiano y español, con un método conversacional pensado para que hables desde la primera semana — no dentro de seis meses.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">
+          Reservar clase de prueba gratis
+        </a>
+        <a class="btn-ghost" href="#precios">Ver precios</a>
+      </div>
+      <div class="lang-orbit">
+        <div class="lang-chip"><span class="flag">🇬🇧</span> Inglés</div>
+        <div class="lang-chip"><span class="flag">🇫🇷</span> Francés</div>
+        <div class="lang-chip"><span class="flag">🇮🇹</span> Italiano</div>
+        <div class="lang-chip"><span class="flag">🇪🇸</span> Español</div>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="hero-photo-float">🎧 Clase en vivo</div>
+      <div class="hero-photo-card">
+        <img src="assets/images/stefano-teaching.jpg" alt="Stefano Del Moro dando una clase de idiomas online por videollamada">
+        <div class="hero-photo-badge">
+          <span class="live-dot"></span>
+          <div><strong>Stefano Del Moro</strong>Profesor de idiomas online</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="metodo">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Cómo trabajamos</div>
+      <h2>Un método hecho para hablar, no para memorizar reglas</h2>
+      <p>Nada de listas de verbos sueltas. Cada clase se arma alrededor de una conversación real, tus objetivos y tu ritmo.</p>
+    </div>
+    <div class="method-layout">
+      <div class="method-photo">
+        <img src="assets/images/group-table.jpg" alt="Grupo de estudiantes practicando español, inglés, italiano y francés alrededor de una mesa">
+      </div>
+      <div class="method-grid">
+        <div class="method-card">
+          <div class="icon">🗣️</div>
+          <div><h3>Conversación desde el minuto uno</h3><p>Hablás en el idioma objetivo desde la primera clase, con correcciones en el momento — no ejercicios aislados que después no sabés usar.</p></div>
+        </div>
+        <div class="method-card">
+          <div class="icon">🎯</div>
+          <div><h3>Plan a tu medida</h3><p>Viaje, trabajo, examen internacional o simplemente el gusto de aprender: el contenido de cada clase se arma según lo que necesitás vos.</p></div>
+        </div>
+        <div class="method-card">
+          <div class="icon">🔁</div>
+          <div><h3>Práctica entre clases</h3><p>Te dejo tareas cortas y recursos puntuales para reforzar lo visto, sin ahogarte en tarea — la constancia importa más que la cantidad.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vida">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Flexibilidad real</div>
+      <h2>Aprendé donde estés, como estés</h2>
+      <p>Tomá tu clase desde el sofá, en un descanso del trabajo, entre clases en la biblioteca o antes de una reunión importante.</p>
+    </div>
+    <div class="video-grid">
+      <div class="video-card">
+        <video src="assets/videos/sofa-laptop.mp4" autoplay muted loop playsinline aria-label="Persona relajada en el sofá estudiando con laptop"></video>
+        <div class="caption">Desde el sofá</div>
+      </div>
+      <div class="video-card">
+        <video src="assets/videos/library-student.mp4" autoplay muted loop playsinline aria-label="Estudiante enfocado estudiando en una biblioteca"></video>
+        <div class="caption">En la biblioteca</div>
+      </div>
+      <div class="video-card">
+        <video src="assets/videos/hero-typing.mp4" autoplay muted loop playsinline aria-label="Persona escribiendo en la laptop con una sonrisa"></video>
+        <div class="caption">En una pausa</div>
+      </div>
+      <div class="video-card">
+        <video src="assets/videos/business-woman.mp4" autoplay muted loop playsinline aria-label="Profesional trabajando antes de una reunión"></video>
+        <div class="caption">Antes de una reunión</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="precios">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Inversión</div>
+      <h2>Precios claros, sin letra chica</h2>
+      <p>Pagás por clase o en paquete. Cuanto más te comprometés, más baja el precio por hora.</p>
+    </div>
+
+    <div class="promo-banner">
+      <div class="promo-text">🎁 <span>Primera clase gratis</span> para conocer el método — sin compromiso.</div>
+      <a class="btn-primary" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener" style="padding:11px 22px; font-size:0.88rem;">Quiero mi clase gratis</a>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="flag">🇬🇧</div>
+        <h3>Inglés</h3>
+        <div class="amount">$12<small>/hora</small></div>
+        <ul>
+          <li>Conversacional o de negocios</li>
+          <li>Preparación TOEFL / IELTS</li>
+        </ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20ingl%C3%A9s" target="_blank" rel="noopener">Reservar</a>
+      </div>
+      <div class="price-card">
+        <div class="flag">🇫🇷</div>
+        <h3>Francés</h3>
+        <div class="amount">$14<small>/hora</small></div>
+        <ul>
+          <li>Desde cero o nivel intermedio</li>
+          <li>Preparación DELF / DALF</li>
+        </ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20franc%C3%A9s" target="_blank" rel="noopener">Reservar</a>
+      </div>
+      <div class="price-card">
+        <div class="flag">🇮🇹</div>
+        <h3>Italiano</h3>
+        <div class="amount">$14<small>/hora</small></div>
+        <ul>
+          <li>Conversación cotidiana</li>
+          <li>Enfoque en pronunciación</li>
+        </ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20italiano" target="_blank" rel="noopener">Reservar</a>
+      </div>
+      <div class="price-card">
+        <div class="flag">🇪🇸</div>
+        <h3>Español</h3>
+        <div class="amount">$15<small>/hora</small></div>
+        <ul>
+          <li>Para hablantes no nativos</li>
+          <li>Español neutro o regional</li>
+        </ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20espa%C3%B1ol" target="_blank" rel="noopener">Reservar</a>
+      </div>
+    </div>
+    <p class="packages-note">📦 Paquete de 4 clases: 10% de descuento · Paquete de 8 clases: 18% de descuento. Consultá por WhatsApp para coordinar horarios y forma de pago.</p>
+  </div>
+</section>
+
+<section id="practica">
+  <div class="wrap">
+    <div class="complement">
+      <div>
+        <div class="complement-badge">⚡ Herramienta recomendada</div>
+        <h2>Las clases te enseñan a hablar. Educare AI te ayuda a practicar todos los días.</h2>
+        <p>Entre una clase y la otra, practicá con mi propia app: traductor de voz en tiempo real, conversación con IA y más — pensada para sumar minutos de exposición al idioma cada día, sin reemplazar a un profesor.</p>
+        <a class="app-link" href="https://play.google.com/store/apps/details?id=com.educareai.app" target="_blank" rel="noopener">
+          <div>
+            <div class="app-name">Educare AI</div>
+            <div class="app-desc">Descargala gratis en Google Play</div>
+          </div>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flex">
+  <div class="wrap">
+    <div class="flex-banner">
+      <img src="assets/images/cafe-student.jpg" alt="Persona estudiando con laptop en una cafetería">
+      <div class="flex-banner-content">
+        <h2>No hace falta un aula. Hace falta ganas.</h2>
+        <p>Adultos, profesionales y estudiantes de todas las edades aprenden idiomas conmigo desde donde estén — un café, la oficina, su casa. Lo único que necesitás es conexión a internet y 45 minutos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" class="contact">
+  <div class="wrap">
+    <h2>¿Empezamos con tu clase de prueba?</h2>
+    <p>Escribime por WhatsApp o correo, contame qué idioma querés aprender y tu disponibilidad, y coordinamos tu primera clase sin costo.</p>
+    <div class="contact-actions">
+      <a class="btn-primary" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">💬 Escribir por WhatsApp</a>
+      <a class="btn-ghost" href="mailto:centrodeidiomaseducare@gmail.com">✉️ Enviar un correo</a>
+    </div>
+    <p class="contact-secondary">También podés escribir a <a href="mailto:stefanodelmoro7773@gmail.com">stefanodelmoro7773@gmail.com</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Stefano Del Moro — Clases de idiomas online</div>
+    <div class="footer-links">
+      <a href="https://stef7773.github.io/portafolio/" target="_blank" rel="noopener">Portafolio</a>
+      <a href="https://play.google.com/store/apps/details?id=com.educareai.app" target="_blank" rel="noopener">Educare AI</a>
+      <a href="https://wa.me/593982630024" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Hero network animation (background)
+  const canvas = document.getElementById('network');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w, h, nodes;
+
+  function resize(){
+    w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+    h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+  }
+  function initNodes(){
+    const count = Math.max(24, Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 30000));
+    nodes = Array.from({length: count}, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.22 * devicePixelRatio,
+      vy: (Math.random() - 0.5) * 0.22 * devicePixelRatio,
+      r: (Math.random() * 1.6 + 0.8) * devicePixelRatio
+    }));
+  }
+  function step(){
+    ctx.clearRect(0, 0, w, h);
+    const maxDist = 150 * devicePixelRatio;
+    for(const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if(n.x < 0 || n.x > w) n.vx *= -1;
+      if(n.y < 0 || n.y > h) n.vy *= -1;
+    }
+    for(let i = 0; i < nodes.length; i++){
+      for(let j = i + 1; j < nodes.length; j++){
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < maxDist){
+          const alpha = (1 - dist / maxDist) * 0.3;
+          ctx.strokeStyle = `rgba(94,234,212,${alpha})`;
+          ctx.lineWidth = devicePixelRatio;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    for(const n of nodes){
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(234,235,245,0.5)'; ctx.fill();
+    }
+    if(!reduceMotion) requestAnimationFrame(step);
+  }
+  window.addEventListener('resize', () => { resize(); initNodes(); });
+  resize(); initNodes(); step();
+
+  // Multilingual greeting typewriter
+  const phrases = [
+    "Hello, I'm Stefano.",
+    "Bonjour, je suis Stefano.",
+    "Ciao, sono Stefano.",
+    "Hola, soy Stefano."
+  ];
+  const el = document.getElementById('greeting-text');
+  let pIndex = 0, cIndex = 0, deleting = false;
+
+  function typeLoop(){
+    const current = phrases[pIndex];
+    if(reduceMotion){
+      el.textContent = phrases[0];
+      return;
+    }
+    if(!deleting){
+      cIndex++;
+      el.textContent = current.slice(0, cIndex);
+      if(cIndex === current.length){
+        deleting = true;
+        setTimeout(typeLoop, 1400);
+        return;
+      }
+      setTimeout(typeLoop, 55);
+    } else {
+      cIndex--;
+      el.textContent = current.slice(0, cIndex);
+      if(cIndex === 0){
+        deleting = false;
+        pIndex = (pIndex + 1) % phrases.length;
+        setTimeout(typeLoop, 300);
+        return;
+      }
+      setTimeout(typeLoop, 28);
+    }
+  }
+  typeLoop();
+</script>
+
+</body>
+</html>
