@@ -127,7 +127,8 @@
   @keyframes float-a{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(40px);} }
   @keyframes float-b{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-30px);} }
 
-  .hero .wrap{position:relative; z-index:2; padding-top:76px; text-align:center; display:flex; flex-direction:column; align-items:center;}
+  .hero .wrap{position:relative; z-index:2; padding-top:150px; text-align:center; display:flex; flex-direction:column; align-items:center;}
+  @media (max-width:600px){ .hero .wrap{padding-top:120px;} }
   .hero-eyebrow{display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;}
   .hero-eyebrow .chip{
     display:flex; align-items:center; gap:7px; border:1px solid var(--card-border); background:rgba(255,255,255,0.03);
@@ -294,7 +295,7 @@
 <nav>
   <div class="wrap">
     <div class="brand-block">
-      <img class="brand-mark" src="assets/images/logo.png" alt="Logo Stefano Del Moro">
+      <img class="brand-mark" src="assets/images/favicon-180.png" alt="Logo Stefano Del Moro">
       <div>
         <div class="brand">Stefano Del Moro</div>
         <div class="brand-sub">Clases de idiomas online</div>
