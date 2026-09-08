@@ -52,7 +52,8 @@
     --section-pad:132px;   /* ritmo vertical estándar de sección */
     --section-pad-mobile:72px;
     --gap-lg:64px;         /* separación estándar en grids de 2 columnas */
-    --wrap-max:1320px;
+    --wrap-max:1680px;
+    --amber:#FBBF6E;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -61,8 +62,9 @@
   h1,h2,h3,.display{font-family:'Sora',sans-serif; font-weight:800; letter-spacing:-0.02em;}
   a{color:inherit; text-decoration:none;}
   img,video{max-width:100%; display:block;}
-  .wrap{max-width:var(--wrap-max); margin:0 auto; padding:0 40px;}
-  @media (max-width:760px){ .wrap{padding:0 22px;} }
+  .wrap{max-width:var(--wrap-max); margin:0 auto; padding:0 clamp(24px,4vw,72px);}
+  @media (max-width:760px){ .wrap{padding:0 20px;} }
+  @media (max-width:420px){ .brand-sub{display:none;} .nav-cta{padding:9px 16px; font-size:0.8rem;} }
   :focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px;}
 
   @media (prefers-reduced-motion: reduce){
@@ -102,6 +104,8 @@
   /* ---------- NAV (restaurada, con anclas reales) ---------- */
   nav{ position:fixed; top:0; left:0; right:0; z-index:100; backdrop-filter:blur(14px); background:rgba(7,9,28,0.7); border-bottom:1px solid var(--card-border); }
   nav .wrap{display:flex; align-items:center; justify-content:space-between; height:76px;}
+  .brand-block{display:flex; align-items:center; gap:10px;}
+  .brand-mark{width:36px; height:36px; border-radius:10px; object-fit:cover; border:1px solid var(--card-border);}
   .brand{font-family:'Sora',sans-serif; font-weight:700; font-size:0.95rem;}
   .brand-sub{color:var(--ink-dim); font-size:0.74rem; margin-top:1px;}
   .nav-links{display:flex; gap:34px; font-size:0.92rem; color:var(--ink-dim);}
@@ -171,7 +175,9 @@
   .method-grid > div:first-child > p{color:var(--ink-dim); font-size:1.05rem; margin-bottom:36px; max-width:46ch;}
   .method-list{display:flex; flex-direction:column; gap:22px;}
   .method-item{display:flex; gap:18px;}
-  .method-item .num{font-family:'Sora',sans-serif; font-weight:800; font-size:1.3rem; color:rgba(255,255,255,0.18);}
+  .method-item .icon{ flex-shrink:0; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; background:rgba(94,234,212,0.1); color:var(--cyan); }
+  .method-item:nth-child(2) .icon{background:rgba(251,139,79,0.1); color:var(--magenta);}
+  .method-item:nth-child(3) .icon{background:rgba(251,191,110,0.12); color:var(--amber);}
   .method-item h3{font-size:1.05rem; margin-bottom:5px;}
   .method-item p{color:var(--ink-dim); font-size:0.94rem; max-width:40ch;}
   .method-media .chip-tag{ position:absolute; top:16px; left:16px; font-size:0.78rem; font-weight:600; background:rgba(6,8,20,0.7); border:1px solid var(--card-border); padding:6px 13px; border-radius:var(--radius-sm); z-index:2; }
@@ -193,6 +199,7 @@
   .stage-card .cap{position:absolute; left:0; right:0; bottom:0; padding:22px 24px; background:linear-gradient(to top, rgba(6,8,20,0.96), transparent 75%);}
   .stage-card .cap .tag{color:var(--cyan); font-size:0.72rem; font-weight:700; letter-spacing:0.03em; display:block; margin-bottom:5px;}
   .stage-card .cap .line{font-size:1.04rem; font-weight:600;}
+  @media (max-width:480px){ .stage-card{width:88vw;} .stage-card .cap{padding:16px 18px;} .stage-card .cap .line{font-size:0.92rem;} }
   .stage-pool{position:absolute; width:min(420px,60vw); height:60px; border-radius:50%; background:radial-gradient(ellipse, rgba(94,234,212,0.2), transparent 70%); bottom:8%; filter:blur(6px);}
   .stage-progress{position:absolute; bottom:32px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:5;}
   .stage-progress i{width:26px; height:3px; border-radius:2px; background:rgba(255,255,255,0.15); transition:background .3s;}
@@ -286,9 +293,12 @@
 
 <nav>
   <div class="wrap">
-    <div>
-      <div class="brand">Stefano Del Moro</div>
-      <div class="brand-sub">Clases de idiomas online</div>
+    <div class="brand-block">
+      <img class="brand-mark" src="assets/images/logo.png" alt="Logo Stefano Del Moro">
+      <div>
+        <div class="brand">Stefano Del Moro</div>
+        <div class="brand-sub">Clases de idiomas online</div>
+      </div>
     </div>
     <div class="nav-links">
       <a href="#metodo">Método</a>
@@ -349,9 +359,9 @@
         <h2>Cada clase se arma alrededor tuyo, no de un libro</h2>
         <p>Nada de listas de verbos sueltas ni unidades genéricas. Definimos tu objetivo real — un viaje, una entrevista, un examen, o simplemente hablar mejor — y cada clase avanza hacia eso.</p>
         <div class="method-list">
-          <div class="method-item"><div class="num">01</div><div><h3>Conversación desde el minuto uno</h3><p>Hablás en el idioma objetivo desde la primera clase, con correcciones en el momento.</p></div></div>
-          <div class="method-item"><div class="num">02</div><div><h3>Plan a tu medida</h3><p>El contenido de cada clase se arma según lo que vos necesitás, no según un temario fijo.</p></div></div>
-          <div class="method-item"><div class="num">03</div><div><h3>Práctica entre clases</h3><p>Tareas cortas y puntuales para reforzar lo visto — la constancia importa más que la cantidad.</p></div></div>
+          <div class="method-item"><div class="icon">🗣️</div><div><h3>Conversación desde el minuto uno</h3><p>Hablás en el idioma objetivo desde la primera clase, con correcciones en el momento.</p></div></div>
+          <div class="method-item"><div class="icon">🎯</div><div><h3>Plan a tu medida</h3><p>El contenido de cada clase se arma según lo que vos necesitás, no según un temario fijo.</p></div></div>
+          <div class="method-item"><div class="icon">🔁</div><div><h3>Práctica entre clases</h3><p>Tareas cortas y puntuales para reforzar lo visto — la constancia importa más que la cantidad.</p></div></div>
         </div>
       </div>
       <div class="media-frame method-media reveal-media">
