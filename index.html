@@ -3,23 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stefano Del Moro — Clases de idiomas (demo de concepto)</title>
+<title>Stefano Del Moro — Clases de Idiomas Online</title>
+<meta name="description" content="Clases particulares online de inglés, francés, italiano y español con un método conversacional. Reserva tu primera clase gratis.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/images/favicon-64.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon-180.png?v=2">
+<meta property="og:title" content="Stefano Del Moro — Clases de Idiomas Online">
+<meta property="og:description" content="Clases particulares online de inglés, francés, italiano y español. Método conversacional desde la primera clase.">
+<meta property="og:image" content="https://stef7773.github.io/clases-idiomas/assets/images/og-banner.jpg">
+<meta property="og:url" content="https://stef7773.github.io/clases-idiomas/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Clases particulares de idiomas online",
+  "provider": { "@type": "Person", "name": "Stefano Del Moro" },
+  "areaServed": "Online",
+  "availableLanguage": ["Inglés", "Francés", "Italiano", "Español"],
+  "url": "https://stef7773.github.io/clases-idiomas/",
+  "offers": { "@type": "Offer", "price": "22", "priceCurrency": "USD", "description": "Clase particular de idiomas de 45 minutos" }
+}
+</script>
 <style>
+  /* =========================================================
+     SISTEMA DE DISEÑO — valores únicos, usados en todo el sitio
+     ========================================================= */
   :root{
-    --bg-0:#06081A;
+    --bg-0:#07091C;
     --bg-1:#10143A;
     --cyan:#5EEAD4;
     --magenta:#FB8B4F;
-    --amber:#FBBF6E;
     --ink:#EEEFF7;
     --ink-dim:#9AA1C2;
     --card:#12173A;
     --card-border:rgba(255,255,255,0.09);
+
+    --radius-sm:12px;      /* chips, botones cuadrados pequeños */
+    --radius-md:24px;      /* tarjetas y medios (fotos/videos) */
+    --radius-pill:100px;   /* botones y píldoras */
+
+    --section-pad:132px;   /* ritmo vertical estándar de sección */
+    --section-pad-mobile:72px;
+    --gap-lg:64px;         /* separación estándar en grids de 2 columnas */
+    --wrap-max:1320px;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -28,185 +61,180 @@
   h1,h2,h3,.display{font-family:'Sora',sans-serif; font-weight:800; letter-spacing:-0.02em;}
   a{color:inherit; text-decoration:none;}
   img,video{max-width:100%; display:block;}
-  .wrap{max-width:1320px; margin:0 auto; padding:0 40px;}
+  .wrap{max-width:var(--wrap-max); margin:0 auto; padding:0 40px;}
   @media (max-width:760px){ .wrap{padding:0 22px;} }
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px;}
 
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
   }
   @media (pointer:coarse){ html,body{cursor:auto;} }
 
-  /* ---------- AMBIENT TEXTURE ---------- */
   body::before{
     content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.5;
     background-image:radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
     background-size:32px 32px;
   }
-  .grain{
-    position:fixed; inset:-100px; z-index:2; pointer-events:none; opacity:0.05; mix-blend-mode:overlay;
-  }
+  .grain{ position:fixed; inset:-100px; z-index:2; pointer-events:none; opacity:0.045; mix-blend-mode:overlay; }
 
-  /* ---------- CUSTOM CURSOR ---------- */
-  .cursor-dot,.cursor-ring{
-    position:fixed; top:0; left:0; border-radius:50%; pointer-events:none; z-index:998;
-    transform:translate(-50%,-50%);
-  }
+  .cursor-dot,.cursor-ring{ position:fixed; top:0; left:0; border-radius:50%; pointer-events:none; z-index:998; transform:translate(-50%,-50%); }
   .cursor-dot{width:6px; height:6px; background:var(--cyan);}
   .cursor-ring{width:34px; height:34px; border:1px solid rgba(94,234,212,0.5); transition:width .25s,height .25s,border-color .25s,background .25s;}
   .cursor-ring.big{width:64px; height:64px; background:rgba(94,234,212,0.08); border-color:var(--cyan);}
   @media (pointer:coarse){ .cursor-dot,.cursor-ring{display:none;} }
 
-  /* ---------- PRELOADER ---------- */
   #preloader{
     position:fixed; inset:0; z-index:999; background:var(--bg-0);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;
   }
-  #preloader .pct{font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(4rem,14vw,10rem); line-height:1;}
+  #preloader .pct{font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(3.6rem,12vw,8rem); line-height:1;}
   #preloader .pct sup{font-size:0.32em; color:var(--cyan); vertical-align:super;}
-  #preloader .cycle{color:var(--ink-dim); font-size:0.95rem; letter-spacing:0.02em; min-height:1.4em;}
-  #preloader .bar-track{width:min(360px,64vw); height:2px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden;}
+  #preloader .cycle{color:var(--ink-dim); font-size:0.92rem; min-height:1.4em;}
+  #preloader .bar-track{width:min(340px,64vw); height:2px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden;}
   #preloader .bar-fill{width:0%; height:100%; background:linear-gradient(90deg,var(--cyan),var(--magenta));}
 
-  /* ---------- SECTION COUNTER + PROGRESS RAIL ---------- */
   #rail{position:fixed; top:0; right:0; width:2px; height:100%; z-index:60; background:rgba(255,255,255,0.06);}
   #rail-fill{width:100%; height:0%; background:linear-gradient(var(--cyan),var(--magenta));}
-  #index-counter{
-    position:fixed; right:28px; bottom:26px; z-index:60; font-family:'Sora',sans-serif;
-    font-size:0.78rem; color:var(--ink-dim); letter-spacing:0.03em;
-  }
+  #index-counter{ position:fixed; right:28px; bottom:26px; z-index:60; font-family:'Sora',sans-serif; font-size:0.78rem; color:var(--ink-dim); }
   #index-counter b{color:var(--ink);}
   @media (max-width:760px){ #index-counter{display:none;} }
 
-  /* ---------- NAV ---------- */
-  nav{position:fixed; top:0; left:0; right:0; z-index:50; padding:26px 0;}
-  nav .wrap{display:flex; justify-content:space-between; align-items:center;}
+  /* ---------- NAV (restaurada, con anclas reales) ---------- */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; backdrop-filter:blur(14px); background:rgba(7,9,28,0.7); border-bottom:1px solid var(--card-border); }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:76px;}
   .brand{font-family:'Sora',sans-serif; font-weight:700; font-size:0.95rem;}
-  .brand-sub{color:var(--ink-dim); font-size:0.76rem; margin-top:2px;}
-  .nav-cta{
-    border:1px solid var(--card-border); padding:10px 20px; border-radius:100px; font-size:0.84rem; font-weight:600;
-    background:rgba(255,255,255,0.03);
-  }
+  .brand-sub{color:var(--ink-dim); font-size:0.74rem; margin-top:1px;}
+  .nav-links{display:flex; gap:34px; font-size:0.92rem; color:var(--ink-dim);}
+  .nav-links a{position:relative; padding-bottom:4px;}
+  .nav-links a::after{content:""; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--cyan); transition:width .25s ease;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{ background:var(--cyan); color:#04201C; padding:11px 22px; border-radius:var(--radius-pill); font-weight:700; font-size:0.86rem; }
+  @media (max-width:860px){ .nav-links{display:none;} }
 
-  /* ---------- HERO ---------- */
+  /* ---------- HERO (video full-bleed, un único protagonista) ---------- */
   .hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden;}
   .hero-bg{position:absolute; inset:0; z-index:-2;}
-  .hero-bg img{width:100%; height:100%; object-fit:cover; filter:brightness(0.32) saturate(1.1);}
-  .hero-bg::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,8,26,0.55), var(--bg-0) 92%);}
+  .hero-bg video{width:100%; height:100%; object-fit:cover; filter:brightness(0.34) saturate(1.05);}
+  .hero-bg::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,9,28,0.5), var(--bg-0) 94%);}
   .glow{position:absolute; border-radius:50%; filter:blur(10px); pointer-events:none; z-index:-1;}
-  .glow-a{width:560px; height:560px; background:radial-gradient(circle, rgba(94,234,212,0.16), transparent 70%); top:-180px; right:-120px; animation:float-a 14s ease-in-out infinite;}
-  .glow-b{width:460px; height:460px; background:radial-gradient(circle, rgba(251,139,79,0.13), transparent 70%); bottom:-160px; left:-140px; animation:float-b 16s ease-in-out infinite;}
+  .glow-a{width:560px; height:560px; background:radial-gradient(circle, rgba(94,234,212,0.14), transparent 70%); top:-180px; right:-120px; animation:float-a 14s ease-in-out infinite;}
+  .glow-b{width:460px; height:460px; background:radial-gradient(circle, rgba(251,139,79,0.11), transparent 70%); bottom:-160px; left:-140px; animation:float-b 16s ease-in-out infinite;}
   @keyframes float-a{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(40px);} }
   @keyframes float-b{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-30px);} }
 
-  .hero .wrap{position:relative; z-index:2; padding-top:60px;}
-  .hero-eyebrow{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:28px; overflow:hidden;}
+  .hero .wrap{position:relative; z-index:2; padding-top:76px; text-align:center; display:flex; flex-direction:column; align-items:center;}
+  .hero-eyebrow{display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:30px;}
   .hero-eyebrow .chip{
     display:flex; align-items:center; gap:7px; border:1px solid var(--card-border); background:rgba(255,255,255,0.03);
-    padding:8px 14px; border-radius:100px; font-size:0.85rem; color:var(--ink-dim);
+    padding:8px 15px; border-radius:var(--radius-pill); font-size:0.86rem; color:var(--ink-dim);
     transform:translateY(140%); opacity:0;
   }
-  h1.hero-title{font-size:clamp(2.6rem,7.6vw,6.4rem); line-height:0.97; max-width:15ch;}
-  h1.hero-title .line{display:block; overflow:hidden; padding-bottom:0.06em;}
+  h1.hero-title{font-size:clamp(2.6rem,7.4vw,6rem); line-height:1.02; max-width:17ch;}
+  h1.hero-title .line{display:block; overflow:hidden; padding-bottom:0.07em;}
   h1.hero-title .line span{display:inline-block; transform:translateY(112%);}
-  h1.hero-title .grad{
-    background:linear-gradient(100deg,var(--cyan) 25%,var(--magenta) 85%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .hero-foot{display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:end; margin-top:52px;}
-  @media (max-width:860px){ .hero-foot{grid-template-columns:1fr;} }
-  .hero-sub{color:var(--ink-dim); font-size:1.08rem; max-width:480px; opacity:0;}
-  .hero-actions{display:flex; gap:16px; margin-top:30px; flex-wrap:wrap; opacity:0;}
-  .btn-primary{
-    background:var(--cyan); color:#04201C; font-weight:700; padding:16px 30px; border-radius:100px; font-size:0.98rem;
-  }
-  .btn-ghost{border:1px solid var(--card-border); padding:16px 28px; border-radius:100px; font-weight:600; font-size:0.98rem;}
-  .fact-row{display:flex; gap:22px; flex-wrap:wrap; margin-top:34px; color:var(--ink-dim); font-size:0.86rem; opacity:0;}
+  h1.hero-title .grad{ background:linear-gradient(100deg,var(--cyan) 25%,var(--magenta) 85%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero-sub{color:var(--ink-dim); font-size:1.1rem; max-width:540px; margin:28px auto 0; opacity:0;}
+  .hero-actions{display:flex; gap:16px; justify-content:center; margin-top:34px; flex-wrap:wrap; opacity:0;}
+  .btn-primary{ background:var(--cyan); color:#04201C; font-weight:700; padding:16px 30px; border-radius:var(--radius-pill); font-size:0.98rem; }
+  .btn-ghost{ border:1px solid var(--card-border); padding:16px 28px; border-radius:var(--radius-pill); font-weight:600; font-size:0.98rem; }
+  .fact-row{display:flex; gap:26px; flex-wrap:wrap; justify-content:center; margin-top:40px; color:var(--ink-dim); font-size:0.86rem; opacity:0;}
   .fact-row b{color:var(--ink); font-weight:600;}
+  .scroll-cue{margin-top:56px; display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--ink-dim); font-size:0.78rem; opacity:0;}
+  .scroll-cue .stick{width:1px; height:40px; background:linear-gradient(var(--cyan),transparent); animation:stick 1.8s ease-in-out infinite;}
+  @keyframes stick{ 0%{transform:scaleY(0); transform-origin:top;} 50%{transform:scaleY(1); transform-origin:top;} 51%{transform-origin:bottom;} 100%{transform:scaleY(0); transform-origin:bottom;} }
 
-  .pip{position:relative; opacity:0; transform:translateY(30px);}
-  .pip-card{
-    position:relative; border-radius:20px; overflow:hidden; border:1px solid var(--card-border);
-    box-shadow:0 30px 80px rgba(0,0,0,0.5); aspect-ratio:4/5; max-width:320px; margin-left:auto;
-  }
-  .pip-card video{width:100%; height:100%; object-fit:cover;}
-  .pip-tag{
-    position:absolute; top:16px; left:16px; display:flex; align-items:center; gap:7px;
-    background:rgba(6,8,20,0.75); backdrop-filter:blur(8px); border:1px solid var(--card-border);
-    padding:7px 13px; border-radius:100px; font-size:0.76rem; font-weight:600;
-  }
-  .pip-tag .dot{width:6px; height:6px; border-radius:50%; background:#F87171; box-shadow:0 0 8px #F87171; animation:pulse 1.4s ease-in-out infinite;}
-  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+  /* ---------- SECTION SHELL (ritmo consistente) ---------- */
+  section.std{padding:var(--section-pad) 0;}
+  @media (max-width:760px){ section.std{padding:var(--section-pad-mobile) 0;} }
+  .kicker{color:var(--cyan); font-size:0.9rem; font-weight:600; margin-bottom:16px;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(1.9rem,3.6vw,2.8rem); margin-bottom:16px;}
+  .section-head p{color:var(--ink-dim); font-size:1.05rem;}
+  .section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
 
   /* ---------- MANIFESTO ---------- */
-  .manifesto{min-height:90vh; display:flex; align-items:center; justify-content:center; text-align:center; position:relative;}
+  .manifesto{min-height:74vh; display:flex; align-items:center; justify-content:center; text-align:center; position:relative;}
   .manifesto-bg{position:absolute; inset:0; opacity:0.05; z-index:-1;}
   .manifesto-bg img{width:100%; height:100%; object-fit:cover;}
-  .manifesto h2{font-size:clamp(2rem,6.4vw,4.6rem); max-width:16ch; line-height:1.12;}
-  .manifesto .accent{
-    background:linear-gradient(100deg,var(--amber) 15%,var(--magenta) 80%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
+  .manifesto h2{font-size:clamp(1.9rem,5.6vw,3.8rem); max-width:17ch; line-height:1.16;}
+  .manifesto .accent{ background:linear-gradient(100deg,var(--cyan) 15%,var(--magenta) 80%); -webkit-background-clip:text; background-clip:text; color:transparent; }
 
-  /* ---------- METHOD (SPLIT REVEAL) ---------- */
-  .method{padding:140px 0;}
-  .method-grid{display:grid; grid-template-columns:0.95fr 1.05fr; gap:70px; align-items:center;}
-  @media (max-width:960px){ .method-grid{grid-template-columns:1fr;} }
-  .kicker{color:var(--cyan); font-size:0.9rem; font-weight:600; margin-bottom:16px;}
-  .method h2{font-size:clamp(1.9rem,3.8vw,2.9rem); margin-bottom:22px; max-width:14ch;}
-  .method > .wrap > .method-grid > div:first-child > p{color:var(--ink-dim); font-size:1.05rem; margin-bottom:38px; max-width:46ch;}
+  /* ---------- MEDIA (video/foto enmarcados — SIEMPRE 16:9, sin excepción) ---------- */
+  .media-frame{ position:relative; border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--card-border); box-shadow:0 30px 80px rgba(0,0,0,0.45); aspect-ratio:16/9; }
+  .media-frame img,.media-frame video{width:100%; height:100%; object-fit:cover;}
+
+  /* ---------- MÉTODO ---------- */
+  .method-grid{display:grid; grid-template-columns:0.95fr 1.05fr; gap:var(--gap-lg); align-items:center;}
+  @media (max-width:900px){ .method-grid{grid-template-columns:1fr;} }
+  .method-grid h2{font-size:clamp(1.9rem,3.6vw,2.8rem); margin-bottom:18px; max-width:14ch;}
+  .method-grid > div:first-child > p{color:var(--ink-dim); font-size:1.05rem; margin-bottom:36px; max-width:46ch;}
   .method-list{display:flex; flex-direction:column; gap:22px;}
   .method-item{display:flex; gap:18px;}
-  .method-item .num{font-family:'Sora',sans-serif; font-weight:800; color:var(--card-border); font-size:1.3rem; color:rgba(255,255,255,0.18);}
+  .method-item .num{font-family:'Sora',sans-serif; font-weight:800; font-size:1.3rem; color:rgba(255,255,255,0.18);}
   .method-item h3{font-size:1.05rem; margin-bottom:5px;}
   .method-item p{color:var(--ink-dim); font-size:0.94rem; max-width:40ch;}
+  .method-media .chip-tag{ position:absolute; top:16px; left:16px; font-size:0.78rem; font-weight:600; background:rgba(6,8,20,0.7); border:1px solid var(--card-border); padding:6px 13px; border-radius:var(--radius-sm); z-index:2; }
 
-  .media-stack{position:relative; border-radius:24px; overflow:hidden; aspect-ratio:4/4.6; border:1px solid var(--card-border); box-shadow:0 30px 80px rgba(0,0,0,0.45);}
-  .media-stack img,.media-stack video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
-  .media-stack .veil{position:absolute; inset:0; clip-path:inset(0 0 100% 0);}
-
-  /* ---------- STAGE (3D GALLERY) ---------- */
-  .stage-intro{padding:60px 0 30px; text-align:center;}
-  .stage-intro h2{font-size:clamp(1.9rem,4.6vw,3.4rem); max-width:20ch; margin:0 auto;}
-  .stage{position:relative; height:100vh; display:flex; align-items:center; justify-content:center; perspective:1800px; overflow:hidden;}
-  .stage-bg{position:absolute; inset:0; z-index:-2; opacity:0.14; filter:blur(2px);}
+  /* ---------- STAGE (galería 3D, pantallas panorámicas) ---------- */
+  .stage-intro{padding:64px 0 34px; text-align:center;}
+  .stage{position:relative; height:100vh; display:flex; align-items:center; justify-content:center; perspective:1900px; overflow:hidden;}
+  .stage-bg{position:absolute; inset:0; z-index:-2; opacity:0.13; filter:blur(2px);}
   .stage-bg img{width:100%; height:100%; object-fit:cover;}
   .stage-bg::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg,var(--bg-0),transparent 30%,transparent 70%,var(--bg-0));}
   .stage-scene{position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; transform-style:preserve-3d;}
   .stage-card{
-    position:absolute; width:min(380px,68vw); aspect-ratio:3/4; border-radius:24px; overflow:hidden;
+    position:absolute; width:min(560px,82vw); aspect-ratio:16/9; border-radius:var(--radius-md); overflow:hidden;
     border:1px solid var(--card-border); box-shadow:0 50px 110px rgba(0,0,0,0.6);
     transform-style:preserve-3d; will-change:transform,opacity,filter;
   }
   .stage-card video{width:100%; height:100%; object-fit:cover;}
-  .stage-card .chip{
-    position:absolute; top:16px; left:16px; font-family:'Sora',sans-serif; font-weight:700; font-size:0.78rem;
-    background:rgba(6,8,20,0.7); border:1px solid var(--card-border); padding:5px 11px; border-radius:8px;
-  }
-  .stage-card .cap{position:absolute; left:0; right:0; bottom:0; padding:26px 22px; background:linear-gradient(to top, rgba(6,8,20,0.96), transparent 72%);}
+  .stage-card .chip{ position:absolute; top:16px; left:16px; font-family:'Sora',sans-serif; font-weight:700; font-size:0.78rem; background:rgba(6,8,20,0.7); border:1px solid var(--card-border); padding:5px 11px; border-radius:var(--radius-sm); }
+  .stage-card .cap{position:absolute; left:0; right:0; bottom:0; padding:22px 24px; background:linear-gradient(to top, rgba(6,8,20,0.96), transparent 75%);}
   .stage-card .cap .tag{color:var(--cyan); font-size:0.72rem; font-weight:700; letter-spacing:0.03em; display:block; margin-bottom:5px;}
-  .stage-card .cap .line{font-size:1.06rem; font-weight:600;}
-  .stage-pool{position:absolute; width:min(300px,54vw); height:60px; border-radius:50%; background:radial-gradient(ellipse, rgba(94,234,212,0.22), transparent 70%); bottom:6%; filter:blur(6px);}
-  .stage-progress{position:absolute; bottom:34px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:5;}
+  .stage-card .cap .line{font-size:1.04rem; font-weight:600;}
+  .stage-pool{position:absolute; width:min(420px,60vw); height:60px; border-radius:50%; background:radial-gradient(ellipse, rgba(94,234,212,0.2), transparent 70%); bottom:8%; filter:blur(6px);}
+  .stage-progress{position:absolute; bottom:32px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:5;}
   .stage-progress i{width:26px; height:3px; border-radius:2px; background:rgba(255,255,255,0.15); transition:background .3s;}
   .stage-progress i.active{background:var(--cyan);}
 
-  /* ---------- PRACTICE (Educare AI) ---------- */
-  .practice{padding:150px 0; position:relative;}
-  .practice-bg{position:absolute; inset:0; opacity:0.1; z-index:-1;}
-  .practice-bg img{width:100%; height:100%; object-fit:cover;}
-  .practice-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center;}
-  @media (max-width:900px){ .practice-grid{grid-template-columns:1fr;} }
-  .practice h2{font-size:clamp(1.9rem,3.6vw,2.7rem); margin-bottom:20px; max-width:16ch;}
-  .practice p{color:var(--ink-dim); font-size:1.03rem; margin-bottom:28px; max-width:46ch;}
-  .app-link{
-    display:inline-flex; align-items:center; gap:16px; background:var(--card); border:1px solid var(--card-border);
-    border-radius:14px; padding:16px 22px;
+  /* ---------- PRECIOS ---------- */
+  .promo-banner{
+    background:linear-gradient(100deg, rgba(94,234,212,0.13), rgba(251,139,79,0.13));
+    border:1px solid rgba(94,234,212,0.32); border-radius:var(--radius-md); padding:22px 28px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:44px;
   }
+  .promo-banner .promo-text{font-weight:600; font-size:1.02rem;}
+  .promo-banner .promo-text span{color:var(--cyan);}
+  .pricing-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+  @media (max-width:960px){ .pricing-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .pricing-grid{grid-template-columns:1fr;} }
+  .price-card{ background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-md); padding:28px 24px; display:flex; flex-direction:column; gap:16px; transition:border-color .2s, transform .2s; }
+  .price-card:hover{border-color:rgba(94,234,212,0.4); transform:translateY(-4px);}
+  .price-card .flag{font-size:2rem;}
+  .price-card h3{font-size:1.1rem;}
+  .price-card .amount{font-family:'Sora',sans-serif; font-size:2rem; font-weight:800;}
+  .price-card .amount small{font-size:0.95rem; font-weight:500; color:var(--ink-dim);}
+  .price-card ul{list-style:none; color:var(--ink-dim); font-size:0.88rem; display:flex; flex-direction:column; gap:6px;}
+  .price-card li::before{content:"✓ "; color:var(--cyan);}
+  .price-card .price-cta{ margin-top:auto; text-align:center; padding:11px; border-radius:var(--radius-pill); border:1px solid var(--card-border); font-size:0.88rem; font-weight:600; transition:background .2s, border-color .2s; }
+  .price-card .price-cta:hover{background:rgba(94,234,212,0.08); border-color:var(--cyan);}
+  .packages-note{color:var(--ink-dim); font-size:0.9rem; margin-top:24px;}
+
+  /* ---------- PRÁCTICA (Educare AI) ---------- */
+  .practice{position:relative;}
+  .practice-bg{position:absolute; inset:0; opacity:0.09; z-index:-1;}
+  .practice-bg img{width:100%; height:100%; object-fit:cover;}
+  .practice-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:var(--gap-lg); align-items:center;}
+  @media (max-width:900px){ .practice-grid{grid-template-columns:1fr;} }
+  .practice-grid h2{font-size:clamp(1.9rem,3.6vw,2.7rem); margin-bottom:20px; max-width:16ch;}
+  .practice-grid p{color:var(--ink-dim); font-size:1.03rem; margin-bottom:28px; max-width:46ch;}
+  .app-link{ display:inline-flex; align-items:center; gap:16px; background:var(--card); border:1px solid var(--card-border); border-radius:14px; padding:16px 22px; }
   .app-link .app-name{font-weight:700;}
   .app-link .app-desc{font-size:0.84rem; color:var(--ink-dim);}
   .phone{position:relative; width:100%; max-width:280px; margin:0 auto; background:linear-gradient(160deg,#1a2050,#0b0f2c); border-radius:38px; padding:16px; border:1px solid var(--card-border); box-shadow:0 30px 90px rgba(0,0,0,0.55);}
-  .phone::before{content:""; position:absolute; top:14px; left:50%; transform:translateX(-50%); width:64px; height:6px; border-radius:100px; background:rgba(255,255,255,0.15);}
-  .phone-screen{background:var(--bg-0); border-radius:26px; padding:36px 14px 16px; min-height:370px; display:flex; flex-direction:column; gap:10px; overflow:hidden;}
+  .phone::before{content:""; position:absolute; top:14px; left:50%; transform:translateX(-50%); width:64px; height:6px; border-radius:var(--radius-pill); background:rgba(255,255,255,0.15);}
+  .phone-screen{background:var(--bg-0); border-radius:26px; padding:36px 14px 16px; min-height:360px; display:flex; flex-direction:column; gap:10px; overflow:hidden;}
   .phone-header{display:flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--ink-dim); margin-bottom:6px;}
   .phone-header .dot{width:6px; height:6px; border-radius:50%; background:#4ADE80; box-shadow:0 0 6px #4ADE80;}
   .bubble{max-width:82%; padding:10px 14px; border-radius:14px; font-size:0.82rem; line-height:1.4; opacity:0; transform:translateY(10px); animation:bubbleIn .5s ease forwards;}
@@ -215,25 +243,33 @@
   @keyframes bubbleIn{ to{opacity:1; transform:none;} }
   .bubble:nth-child(2){animation-delay:.3s;} .bubble:nth-child(3){animation-delay:1.3s;} .bubble:nth-child(4){animation-delay:2.3s;} .bubble:nth-child(5){animation-delay:3.3s;}
 
-  /* ---------- CTA (FULL-BLEED VIDEO) ---------- */
-  .cta{position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden;}
-  .cta video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2;}
-  .cta::after{content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgba(6,8,20,0.75), rgba(6,8,20,0.92));}
-  .cta h2{font-size:clamp(2.2rem,6.4vw,5rem); max-width:16ch; margin:0 auto 30px; line-height:1.08;}
-  .cta p{color:var(--ink-dim); font-size:1.05rem; margin-bottom:38px;}
-  .cta-people{display:flex; align-items:center; justify-content:center; gap:14px; margin-top:46px;}
+  /* ---------- FLEX BANNER ---------- */
+  .flex-banner{ position:relative; border-radius:var(--radius-md); overflow:hidden; min-height:360px; display:flex; align-items:center; isolation:isolate; }
+  .flex-banner video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2;}
+  .flex-banner::after{content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(100deg, rgba(7,9,28,0.94) 40%, rgba(7,9,28,0.35));}
+  .flex-banner-content{padding:50px; max-width:460px;}
+  .flex-banner-content h2{font-size:clamp(1.5rem,2.8vw,2.1rem); margin-bottom:14px;}
+  .flex-banner-content p{color:var(--ink-dim);}
+
+  /* ---------- CONTACTO ---------- */
+  .contact{text-align:center;}
+  .contact h2{font-size:clamp(2rem,4vw,3rem); max-width:680px; margin:0 auto 20px;}
+  .contact p{color:var(--ink-dim); max-width:520px; margin:0 auto 40px; font-size:1.05rem;}
+  .contact-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .cta-people{display:flex; align-items:center; justify-content:center; gap:14px; margin-top:48px;}
   .cta-people img{width:52px; height:52px; border-radius:50%; object-fit:cover; border:2px solid var(--card-border);}
   .cta-people .who{text-align:left; font-size:0.86rem; color:var(--ink-dim);}
   .cta-people .who b{display:block; color:var(--ink); font-size:0.94rem;}
 
-  footer{padding:44px 0; text-align:center; color:var(--ink-dim); font-size:0.82rem; position:relative; z-index:2;}
+  footer{border-top:1px solid var(--card-border); padding:40px 0; color:var(--ink-dim); font-size:0.86rem;}
+  footer .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+  footer a:hover{color:var(--cyan);}
+  .footer-links{display:flex; gap:24px;}
 </style>
 </head>
 <body>
 
-<svg class="grain" width="0" height="0">
-  <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
-</svg>
+<svg class="grain" width="0" height="0"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter></svg>
 <div class="grain" style="filter:url(#noiseFilter); background:transparent;"></div>
 
 <div class="cursor-dot" id="cdot"></div>
@@ -246,7 +282,7 @@
 </div>
 
 <div id="rail"><div id="rail-fill"></div></div>
-<div id="index-counter"><b id="idx-current">01</b> / 07</div>
+<div id="index-counter"><b id="idx-current">01</b> / 08</div>
 
 <nav>
   <div class="wrap">
@@ -254,12 +290,20 @@
       <div class="brand">Stefano Del Moro</div>
       <div class="brand-sub">Clases de idiomas online</div>
     </div>
-    <a class="nav-cta magnetic" href="https://wa.me/593982630024" target="_blank" rel="noopener">Reservar clase</a>
+    <div class="nav-links">
+      <a href="#metodo">Método</a>
+      <a href="#precios">Precios</a>
+      <a href="#practica">Práctica extra</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <a class="nav-cta magnetic" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20reservar%20una%20clase" target="_blank" rel="noopener">Reservar clase</a>
   </div>
 </nav>
 
 <header class="hero" data-section="Inicio">
-  <div class="hero-bg"><img src="https://stef7773.github.io/clases-idiomas/assets/images/corporate-platform-hero.jpg" alt=""></div>
+  <div class="hero-bg">
+    <video src="https://stef7773.github.io/clases-idiomas/assets/videos/hero-typing.mp4" muted loop playsinline preload="auto" poster="assets/images/corporate-platform-hero.jpg"></video>
+  </div>
   <div class="glow glow-a"></div>
   <div class="glow glow-b"></div>
   <div class="wrap">
@@ -275,38 +319,29 @@
       <span class="line"><span>Empieza a <span class="grad">pensar</span></span></span>
       <span class="line"><span>en el idioma.</span></span>
     </h1>
-    <div class="hero-foot">
-      <div>
-        <p class="hero-sub">Clases particulares 1:1, online, con un método conversacional: hablás desde la primera semana, no dentro de seis meses.</p>
-        <div class="hero-actions">
-          <a class="btn-primary magnetic" href="https://wa.me/593982630024" target="_blank" rel="noopener">Reservar clase de prueba gratis</a>
-          <a class="btn-ghost magnetic" href="#stage">Ver cómo son las clases</a>
-        </div>
-        <div class="fact-row">
-          <span><b>4</b> idiomas</span>
-          <span><b>1:1</b>, no en grupo</span>
-          <span><b>45 min</b> por clase</span>
-          <span>profesor real, <b>no solo una app</b></span>
-        </div>
-      </div>
-      <div class="pip">
-        <div class="pip-card">
-          <div class="pip-tag"><span class="dot"></span> Clase en vivo</div>
-          <video src="https://stef7773.github.io/clases-idiomas/assets/videos/hero-typing.mp4" muted loop playsinline preload="auto"></video>
-        </div>
-      </div>
+    <p class="hero-sub">Clases particulares 1:1, online, con un método conversacional: hablás desde la primera semana, no dentro de seis meses.</p>
+    <div class="hero-actions">
+      <a class="btn-primary magnetic" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">Reservar clase de prueba gratis</a>
+      <a class="btn-ghost magnetic" href="#precios">Ver precios</a>
     </div>
+    <div class="fact-row">
+      <span><b>4</b> idiomas</span>
+      <span><b>1:1</b>, no en grupo</span>
+      <span><b>45 min</b> por clase</span>
+      <span>profesor real, <b>no solo una app</b></span>
+    </div>
+    <div class="scroll-cue"><span>Desliza</span><div class="stick"></div></div>
   </div>
 </header>
 
 <section class="manifesto" data-section="Filosofía">
-  <div class="manifesto-bg"><img src="https://stef7773.github.io/clases-idiomas/assets/images/group-table.jpg" alt=""></div>
+  <div class="manifesto-bg"><img src="assets/images/group-table.jpg" alt=""></div>
   <div class="wrap">
     <h2>No enseño gramática de memoria. Enseño a que tu cabeza <span class="accent">deje de hacer escala en español</span> antes de hablar.</h2>
   </div>
 </section>
 
-<section class="method" id="metodo" data-section="Método">
+<section id="metodo" class="std" data-section="Método">
   <div class="wrap">
     <div class="method-grid">
       <div>
@@ -319,11 +354,9 @@
           <div class="method-item"><div class="num">03</div><div><h3>Práctica entre clases</h3><p>Tareas cortas y puntuales para reforzar lo visto — la constancia importa más que la cantidad.</p></div></div>
         </div>
       </div>
-      <div class="media-stack" id="mediaStack">
-        <img src="https://stef7773.github.io/clases-idiomas/assets/images/group-table.jpg" alt="">
-        <div class="veil" id="mediaVeil">
-          <video src="https://stef7773.github.io/clases-idiomas/assets/videos/business-woman.mp4" muted loop playsinline preload="auto"></video>
-        </div>
+      <div class="media-frame method-media reveal-media">
+        <div class="chip-tag">Clase real</div>
+        <video src="assets/videos/business-woman.mp4" muted loop playsinline preload="auto"></video>
       </div>
     </div>
   </div>
@@ -332,40 +365,77 @@
 <section class="stage-intro" data-section="Tu día a día">
   <div class="wrap">
     <div class="kicker">Así vive el idioma quien estudia conmigo</div>
-    <h2>El idioma no vive en el cuaderno. Vive en tu día — en el sofá, en la biblioteca, antes de una reunión.</h2>
+    <h2 style="font-size:clamp(1.9rem,4.4vw,3.2rem); max-width:20ch; margin:0 auto; text-align:center;">El idioma no vive en el cuaderno. Vive en tu día — en el sofá, en la biblioteca, antes de una reunión.</h2>
   </div>
 </section>
 
 <section class="stage" id="stage">
-  <div class="stage-bg"><img src="https://stef7773.github.io/clases-idiomas/assets/images/corporate-platform.jpg" alt=""></div>
+  <div class="stage-bg"><img src="assets/images/corporate-platform.jpg" alt=""></div>
   <div class="stage-pool"></div>
   <div class="stage-scene" id="scene">
     <div class="stage-card" data-i="0">
       <div class="chip">01</div>
-      <video src="https://stef7773.github.io/clases-idiomas/assets/videos/sofa-laptop.mp4" muted loop playsinline preload="auto"></video>
+      <video src="assets/videos/sofa-laptop.mp4" muted loop playsinline preload="auto"></video>
       <div class="cap"><span class="tag">SIN HORARIO FIJO</span><span class="line">Con las zapatillas puestas, desde el sofá</span></div>
     </div>
     <div class="stage-card" data-i="1">
       <div class="chip">02</div>
-      <video src="https://stef7773.github.io/clases-idiomas/assets/videos/library-student.mp4" muted loop playsinline preload="auto"></video>
+      <video src="assets/videos/library-student.mp4" muted loop playsinline preload="auto"></video>
       <div class="cap"><span class="tag">ENTRE CLASES</span><span class="line">Un rato en la biblioteca, entre materias</span></div>
     </div>
     <div class="stage-card" data-i="2">
       <div class="chip">03</div>
-      <video src="https://stef7773.github.io/clases-idiomas/assets/videos/hero-typing.mp4" muted loop playsinline preload="auto"></video>
+      <video src="assets/videos/hero-typing.mp4" muted loop playsinline preload="auto"></video>
       <div class="cap"><span class="tag">EN UNA PAUSA</span><span class="line">15 minutos alcanzan para avanzar</span></div>
     </div>
     <div class="stage-card" data-i="3">
       <div class="chip">04</div>
-      <video src="https://stef7773.github.io/clases-idiomas/assets/videos/business-woman.mp4" muted loop playsinline preload="auto"></video>
+      <video src="assets/videos/business-woman.mp4" muted loop playsinline preload="auto"></video>
       <div class="cap"><span class="tag">ANTES DE UNA REUNIÓN</span><span class="line">Practicás y después cerrás el negocio</span></div>
     </div>
   </div>
   <div class="stage-progress" id="stageProgress"><i class="active"></i><i></i><i></i><i></i></div>
 </section>
 
-<section class="practice" data-section="Práctica diaria">
-  <div class="practice-bg"><img src="https://stef7773.github.io/clases-idiomas/assets/images/cafe-student.jpg" alt=""></div>
+<section id="precios" class="std" data-section="Precios">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Inversión</div>
+      <h2>Precios claros, sin letra chica</h2>
+      <p>Pagas por clase o en paquete. El precio es el mismo para los cuatro idiomas.</p>
+    </div>
+    <div class="promo-banner">
+      <div class="promo-text">🎁 <span>Primera clase gratis</span> para conocer el método — sin compromiso.</div>
+      <a class="btn-primary magnetic" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener" style="padding:11px 22px; font-size:0.88rem;">Quiero mi clase gratis</a>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="flag">🇬🇧</div><h3>Inglés</h3><div class="amount">$22<small>/hora</small></div>
+        <ul><li>Conversacional o de negocios</li><li>Preparación TOEFL / IELTS</li></ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20ingl%C3%A9s" target="_blank" rel="noopener">Reservar</a>
+      </div>
+      <div class="price-card">
+        <div class="flag">🇫🇷</div><h3>Francés</h3><div class="amount">$22<small>/hora</small></div>
+        <ul><li>Desde cero o nivel intermedio</li><li>Preparación DELF / DALF</li></ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20franc%C3%A9s" target="_blank" rel="noopener">Reservar</a>
+      </div>
+      <div class="price-card">
+        <div class="flag">🇮🇹</div><h3>Italiano</h3><div class="amount">$22<small>/hora</small></div>
+        <ul><li>Conversación cotidiana</li><li>Enfoque en pronunciación</li></ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20italiano" target="_blank" rel="noopener">Reservar</a>
+      </div>
+      <div class="price-card">
+        <div class="flag">🇪🇸</div><h3>Español</h3><div class="amount">$22<small>/hora</small></div>
+        <ul><li>Para hablantes no nativos</li><li>Español neutro o regional</li></ul>
+        <a class="price-cta" href="https://wa.me/593982630024?text=Hola%2C%20quiero%20info%20de%20clases%20de%20espa%C3%B1ol" target="_blank" rel="noopener">Reservar</a>
+      </div>
+    </div>
+    <p class="packages-note">📦 También podés pagar por paquetes de clases. Consultá por WhatsApp para coordinar horarios, cantidad de clases y forma de pago.</p>
+  </div>
+</section>
+
+<section id="practica" class="std practice" data-section="Práctica diaria">
+  <div class="practice-bg"><img src="assets/images/cafe-student.jpg" alt=""></div>
   <div class="wrap">
     <div class="practice-grid">
       <div>
@@ -389,20 +459,44 @@
   </div>
 </section>
 
-<section class="cta" data-section="Empezar">
-  <video src="https://stef7773.github.io/clases-idiomas/assets/videos/sofa-laptop.mp4" muted loop playsinline preload="auto"></video>
+<section class="std" data-section="Flexibilidad">
   <div class="wrap">
-    <h2>Tu próxima clase puede ser hoy.</h2>
-    <p>Escribime por WhatsApp y coordinamos tu clase de prueba, sin costo y sin compromiso.</p>
-    <a class="btn-primary magnetic" href="https://wa.me/593982630024" target="_blank" rel="noopener">💬 Escribir por WhatsApp</a>
+    <div class="flex-banner">
+      <video src="assets/videos/sofa-laptop.mp4" muted loop playsinline preload="auto"></video>
+      <div class="flex-banner-content">
+        <h2>No hace falta un aula. Hace falta ganas.</h2>
+        <p>Adultos, profesionales y estudiantes de todas las edades aprenden idiomas conmigo desde donde estén. Lo único que necesitás es conexión a internet y 45 minutos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" class="std contact" data-section="Contacto">
+  <div class="wrap">
+    <h2>¿Empezamos con tu clase de prueba?</h2>
+    <p>Escribime por WhatsApp o correo y contame qué idioma querés aprender. Con tu disponibilidad, coordinamos tu primera clase sin costo.</p>
+    <div class="contact-actions">
+      <a class="btn-primary magnetic" href="https://wa.me/593982630024?text=Hola%20Stefano%2C%20quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">💬 Escribir por WhatsApp</a>
+      <a class="btn-ghost magnetic" href="https://mail.google.com/mail/?view=cm&fs=1&to=centrodeidiomaseducare@gmail.com&su=Quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">✉️ centrodeidiomaseducare@gmail.com</a>
+      <a class="btn-ghost magnetic" href="https://mail.google.com/mail/?view=cm&fs=1&to=stefanodelmoro7773@gmail.com&su=Quiero%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">✉️ stefanodelmoro7773@gmail.com</a>
+    </div>
     <div class="cta-people">
-      <img src="https://stef7773.github.io/clases-idiomas/assets/images/stefano-teaching.jpg" alt="Stefano Del Moro">
+      <img src="assets/images/stefano-teaching.jpg" alt="Stefano Del Moro">
       <div class="who"><b>Stefano Del Moro</b>Tu profesor, no un bot</div>
     </div>
   </div>
 </section>
 
-<footer>© 2026 Stefano Del Moro — Demo de concepto, no reemplaza el sitio en vivo</footer>
+<footer>
+  <div class="wrap">
+    <div>© 2026 Stefano Del Moro — Clases de idiomas online</div>
+    <div class="footer-links">
+      <a href="https://stef7773.github.io/portafolio/" target="_blank" rel="noopener">Portafolio</a>
+      <a href="https://play.google.com/store/apps/details?id=com.educareai.app" target="_blank" rel="noopener">Educare AI</a>
+      <a href="https://wa.me/593982630024" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</footer>
 
 <script>
 gsap.registerPlugin(ScrollTrigger);
@@ -436,24 +530,11 @@ if(fine && !reduceMotion){
     const my = gsap.quickTo(el, 'y', { duration: 0.3, ease: 'power3' });
     el.addEventListener('mousemove', (e) => {
       const r = el.getBoundingClientRect();
-      mx((e.clientX - r.left - r.width / 2) * 0.25);
-      my((e.clientY - r.top - r.height / 2) * 0.25);
+      mx((e.clientX - r.left - r.width / 2) * 0.22);
+      my((e.clientY - r.top - r.height / 2) * 0.22);
     });
     el.addEventListener('mouseleave', () => { mx(0); my(0); });
   });
-}
-
-/* ---------- PIP PARALLAX ---------- */
-if(fine && !reduceMotion){
-  const pip = document.querySelector('.pip');
-  if(pip){
-    const px = gsap.quickTo(pip, 'x', { duration: 0.5, ease: 'power3' });
-    const py = gsap.quickTo(pip, 'y', { duration: 0.5, ease: 'power3' });
-    window.addEventListener('mousemove', (e) => {
-      const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-      px((e.clientX - cx) * 0.02); py((e.clientY - cy) * 0.02);
-    });
-  }
 }
 
 /* ---------- PRELOADER ---------- */
@@ -486,14 +567,16 @@ function playHeroIntro(){
     .to('.hero-sub', { opacity: 1, duration: 0.6 }, '-=0.35')
     .to('.hero-actions', { opacity: 1, duration: 0.6 }, '-=0.4')
     .to('.fact-row', { opacity: 1, duration: 0.6 }, '-=0.4')
-    .to('.pip', { opacity: 1, y: 0, duration: 0.9 }, '-=0.7');
+    .to('.scroll-cue', { opacity: 1, duration: 0.6 }, '-=0.4');
 }
 
-/* ---------- MEDIA STACK REVEAL (photo -> video wipe) ---------- */
-gsap.to('#mediaVeil', {
-  clipPath: 'inset(0% 0 0% 0)',
-  ease: 'none',
-  scrollTrigger: { trigger: '#mediaStack', start: 'top 75%', end: 'bottom 55%', scrub: 0.6 }
+/* ---------- SCROLL REVEAL for standard sections & media frames ---------- */
+const revealTargets = gsap.utils.toArray('.method-grid, .practice-grid, .pricing-grid, .flex-banner, .reveal-media');
+revealTargets.forEach((el) => {
+  gsap.fromTo(el, { opacity: 0, y: 32 }, {
+    opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 82%' }
+  });
 });
 
 /* ---------- 3D VIDEO STAGE ---------- */
@@ -507,12 +590,12 @@ function layoutFor(progress){
     const rel = i - raw;
     const depth = Math.abs(rel);
     gsap.set(card, {
-      xPercent: rel * 52,
-      rotateY: rel * -34,
-      z: -depth * 300,
+      xPercent: rel * 58,
+      rotateY: rel * -28,
+      z: -depth * 320,
       scale: 1 - Math.min(depth * 0.16, 0.5),
       opacity: 1 - Math.min(depth * 0.4, 0.85),
-      filter: 'blur(' + Math.min(depth * 2.4, 6) + 'px)',
+      filter: 'blur(' + Math.min(depth * 2.2, 6) + 'px)',
       zIndex: 100 - Math.round(depth * 10)
     });
   });
@@ -543,9 +626,7 @@ window.addEventListener('scroll', () => {
 /* ---------- PAUSE OFF-SCREEN VIDEOS (perf) ---------- */
 document.querySelectorAll('video').forEach((vid) => {
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){ vid.play().catch(() => {}); } else { vid.pause(); }
-    });
+    entries.forEach(entry => { if(entry.isIntersecting){ vid.play().catch(() => {}); } else { vid.pause(); } });
   }, { threshold: 0.05 });
   io.observe(vid);
 });
@@ -554,8 +635,7 @@ document.querySelectorAll('video').forEach((vid) => {
 if(reduceMotion){
   preloader.style.display = 'none';
   gsap.set(['.hero-eyebrow .chip','h1.hero-title .line span'], { yPercent: 0, opacity: 1 });
-  gsap.set(['.hero-sub','.hero-actions','.fact-row','.pip'], { opacity: 1, y: 0 });
-  gsap.set('#mediaVeil', { clipPath: 'inset(0% 0 0% 0)' });
+  gsap.set(['.hero-sub','.hero-actions','.fact-row','.scroll-cue'], { opacity: 1, y: 0 });
 }
 </script>
 
